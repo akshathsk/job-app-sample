@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Website</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+    <h1>Job Openings</h1>
+    <p>Find your dream job with us!</p>
+</header>
+
+<main>
+    <section id="job-listings">
+    </section>
+
+    <section id="application-form-container" style="display: none;">
+        <div id="form-type-selector">
+            <button id="quick-apply-btn" class="form-selector-btn active">Quick Apply</button>
+            <button id="full-apply-btn" class="form-selector-btn">Full Application</button>
+        </div>
+
+        <div id="forms">
+            <form id="quick-apply-form" class="application-form active-form">
+                <h2>Quick Apply</h2>
+                <div class="form-group">
+                    <label for="quick-name">Full Name:</label>
+                    <input type="text" id="quick-name" name="quick-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="quick-email">Email:</label>
+                    <input type="email" id="quick-email" name="quick-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="quick-resume">Resume Upload:</label>
+                    <input type="file" id="quick-resume" name="quick-resume" accept=".pdf,.doc,.docx">
+                </div>
+                <button type="submit" class="submit-btn">Submit Quick Apply</button>
+            </form>
+
+            <form id="full-application-form" class="application-form">
+                <h2>Full Application</h2>
+                <div class="form-group">
+                    <label for="full-name">Full Name:</label>
+                    <input type="text" id="full-name" name="full-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="full-email">Email:</label>
+                    <input type="email" id="full-email" name="full-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="full-phone">Phone:</label>
+                    <input type="tel" id="full-phone" name="full-phone">
+                </div>
+                <div class="form-group">
+                    <label for="full-address">Address:</label>
+                    <textarea id="full-address" name="full-address"></textarea>
+                </div>
+
+                <h3>Education History</h3>
+                <div id="education-section">
+                    <div class="education-entry">
+                        <div class="form-group">
+                            <label for="edu-school-1">School Name:</label>
+                            <input type="text" id="edu-school-1" name="edu-school-1">
+                        </div>
+                        <div class="form-group">
+                            <label for="edu-degree-1">Degree:</label>
+                            <input type="text" id="edu-degree-1" name="edu-degree-1">
+                        </div>
+                        <div class="form-group">
+                            <label for="edu-years-1">Years Attended:</label>
+                            <input type="text" id="edu-years-1" name="edu-years-1">
+                        </div>
+                    </div>
+                </div>
+<!--                <button type="button" id="add-education-btn">Add Education</button>-->
+
+                <h3>Work Experience</h3>
+                <div id="experience-section">
+                    <div class="experience-entry">
+                        <div class="form-group">
+                            <label for="exp-company-1">Company Name:</label>
+                            <input type="text" id="exp-company-1" name="exp-company-1">
+                        </div>
+                        <div class="form-group">
+                            <label for="exp-position-1">Position:</label>
+                            <input type="text" id="exp-position-1" name="exp-position-1">
+                        </div>
+                        <div class="form-group">
+                            <label for="exp-years-1">Years Worked:</label>
+                            <input type="text" id="exp-years-1" name="exp-years-1">
+                        </div>
+                    </div>
+                </div>
+<!--                <button type="button" id="add-experience-btn">Add Experience</button>-->
+
+
+                <div class="form-group">
+                    <label for="full-skills">Skills (Comma separated or select from list):</label>
+                    <input type="text" id="full-skills" name="full-skills">
+                </div>
+                <div class="form-group">
+                    <label for="full-cover-letter">Cover Letter:</label>
+                    <textarea id="full-cover-letter" name="full-cover-letter"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="full-resume">Resume Upload:</label>
+                    <input type="file" id="full-resume" name="full-resume" accept=".pdf,.doc,.docx" required>
+                </div>
+                <div class="form-group">
+                    <label for="full-portfolio">Portfolio/Website URL (Optional):</label>
+                    <input type="url" id="full-portfolio" name="full-portfolio">
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Full Application</button>
+            </form>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2023 Job Application Website</p>
+</footer>
+
+<div id="info-popup" class="popup">
+    <div class="popup-content">
+        <span class="close-button" id="info-popup-close">&times;</span>
+        <h2 id="info-popup-title"></h2>
+        <p id="info-popup-description"></p>
+        <button id="info-popup-apply-btn">Apply Now</button>
+    </div>
+</div>
+
+<div id="confirmation-popup" class="popup">
+    <div class="popup-content">
+        <span class="close-button" id="confirmation-popup-close">&times;</span>
+        <h2>Application Submitted Successfully!</h2>
+        <p>Thank you for your application. We will review it and get back to you soon.</p>
+    </div>
+</div>
+
+<div id="error-popup" class="popup">
+    <div class="popup-content">
+        <span class="close-button" id="error-popup-close">&times;</span>
+        <h2>Error Submitting Application</h2>
+        <p id="error-popup-message">Please check the form for errors and try again.</p>
+    </div>
+</div>
+
+<div id="loading-popup" class="popup">
+    <div class="popup-content">
+        <h2>Submitting Application...</h2>
+        <div class="loading-spinner"></div> </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
