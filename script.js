@@ -1,4 +1,4 @@
-// script.js – fixed version without intermittent popup bug
+// script.js – with dummy API call invoked incorrectly to trigger error popup
 
 document.addEventListener('DOMContentLoaded', () => {
     const jobListingsSection = document.getElementById('job-listings');
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         popup.style.display = 'none';
     }
 
-    // Close popups
+    // Popup close handlers
     quickApplyBtn.addEventListener('click', () => showForm('quick'));
     fullApplyBtn.addEventListener('click', () => showForm('full'));
     infoPopupCloseBtn.addEventListener('click', () => hidePopup(infoPopup));
@@ -84,35 +84,50 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.target === loadingPopup) hidePopup(loadingPopup);
     });
 
+    // Submit handlers now attempt a dummy fetch with wrong URL to induce failure
     quickApplyForm.addEventListener('submit', handleQuickSubmit);
     fullApplicationForm.addEventListener('submit', handleFullSubmit);
 
-    function handleQuickSubmit(e) {
+    async function handleQuickSubmit(e) {
         e.preventDefault();
-        if (validateQuick()) simulateSubmission(quickApplyForm);
-    }
-
-    function handleFullSubmit(e) {
-        e.preventDefault();
-        if (validateFull()) simulateSubmission(fullApplicationForm);
-    }
-
-    function simulateSubmission(form) {
         showLoading();
-        setTimeout(() => {
+        try {
+            const response = await fetch('/api/quickApply/submit', {
+                method: 'POST',
+            });
+            if (!response.ok) throw new Error('Network response was not ok');
+        } catch (err) {
+            console.error('Quick apply API error:', err);
+            showError('Submission failed: Not invoking the API correctly on quick apply submit.');
+        } finally {
             hideLoading();
-            showConfirmationPopup();
-            form.reset();
-            applicationFormContainer.style.display = 'none';
-            jobListingsSection.style.display = 'grid';
-        }, 2000);
+        }
+    }
+
+    async function handleFullSubmit(e) {
+        e.preventDefault();
+        showLoading();
+        try {
+            const response = await fetch('/api/fullApply', {
+                method: 'GET'
+            });
+            if (!response.ok) throw new Error('Network response was not ok');
+        } catch (err) {
+            console.error('Full apply API error:', err);
+            showError('Submission failed: Not invoking the API correctly on full application submit.');
+        } finally {
+            hideLoading();
+        }
     }
 
     function showLoading() { loadingPopup.style.display = 'block'; }
     function hideLoading() { loadingPopup.style.display = 'none'; }
-    function showConfirmationPopup() { confirmationPopup.style.display = 'block'; }
 
-    // ... validation functions (unchanged) ...
+    function showConfirmationPopup() { confirmationPopup.style.display = 'block'; }
+    function showError(message) {
+        document.getElementById('error-popup-message').innerHTML = message;
+        errorPopup.style.display = 'block';
+    }
 
     renderJobListings();
 });
