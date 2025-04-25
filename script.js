@@ -1,4 +1,4 @@
-// script.js – with one subtle, action-triggered bug
+// script.js – fixed version without intermittent popup bug
 
 document.addEventListener('DOMContentLoaded', () => {
     const jobListingsSection = document.getElementById('job-listings');
@@ -71,19 +71,17 @@ document.addEventListener('DOMContentLoaded', () => {
         popup.style.display = 'none';
     }
 
+    // Close popups
     quickApplyBtn.addEventListener('click', () => showForm('quick'));
     fullApplyBtn.addEventListener('click', () => showForm('full'));
+    infoPopupCloseBtn.addEventListener('click', () => hidePopup(infoPopup));
     confirmationPopupCloseBtn.addEventListener('click', () => hidePopup(confirmationPopup));
     errorPopupCloseBtn.addEventListener('click', () => hidePopup(errorPopup));
-
-    // BUG: After closing the info popup, all "Apply Now" buttons are re-created without event listeners,
-    // so the popup won't open a second time.
-    infoPopupCloseBtn.addEventListener('click', () => {
-        hidePopup(infoPopup);
-        document.querySelectorAll('.apply-button').forEach(btn => {
-            const clone = btn.cloneNode(true);
-            btn.parentNode.replaceChild(clone, btn);
-        });
+    window.addEventListener('click', event => {
+        if (event.target === infoPopup) hidePopup(infoPopup);
+        if (event.target === confirmationPopup) hidePopup(confirmationPopup);
+        if (event.target === errorPopup) hidePopup(errorPopup);
+        if (event.target === loadingPopup) hidePopup(loadingPopup);
     });
 
     quickApplyForm.addEventListener('submit', handleQuickSubmit);
